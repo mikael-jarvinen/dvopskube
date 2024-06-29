@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logoutput-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logoutput
+  template:
+    metadata:
+      labels:
+        app: logoutput
+    spec:
+      volumes:
+        - name: shared-log-file
+          emptyDir: {}
+      containers:
+        - name: logoutput-reader
+          image: usermine12/dvopskube-110-reader
+          volumeMounts:
+          - name: shared-log-file
+            mountPath: /tmp
+        - name: logoutput-writer
+          image: usermine12/dvopskube-110-writer
+          volumeMounts:
+          - name: shared-log-file
+            mountPath: /tmp

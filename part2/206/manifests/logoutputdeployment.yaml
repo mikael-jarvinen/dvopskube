@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: course-exercises
+  name: logoutput-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logoutput
+  template:
+    metadata:
+      labels:
+        app: logoutput
+    spec:
+      containers:
+        - name: logoutput
+          image: usermine12/dvopskube-206-logoutput
+          env:
+            - name: PINGPONG_URL
+              value: http://pingpong-svc:2345/counter
+            - name: MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: logoutput-configmap
+                  key: message
+          volumeMounts:
+            - name: logoutput-config-volume
+              mountPath: /etc/config
+      volumes:
+        - name: logoutput-config-volume
+          configMap:
+            name: logoutput-configmap
+            items:
+              - key: information
+                path: information.txt

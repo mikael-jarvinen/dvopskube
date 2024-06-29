@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: todo-project
+  name: todo-frontend-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-frontend
+  template:
+    metadata:
+      labels:
+        app: todo-frontend
+    spec:
+      volumes:
+        - name: image-volume
+          persistentVolumeClaim:
+            claimName: todo-volume-claim
+      containers:
+        - name: todo-frontend
+          image: usermine12/dvopskube-202-frontend
+          env:
+          - name: PORT
+            value: "3000"
+          - name: API_URL
+            value: "http://todo-backend-svc:2345"

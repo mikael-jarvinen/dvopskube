@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logoutput-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logoutput
+  template:
+    metadata:
+      labels:
+        app: logoutput
+    spec:
+      volumes:
+        - name: shared-counter
+          persistentVolumeClaim:
+            claimName: application-volume-claim
+      containers:
+        - name: logoutput
+          image: usermine12/dvopskube-111-logoutput
+          volumeMounts:
+          - name: shared-counter
+            mountPath: /tmp
