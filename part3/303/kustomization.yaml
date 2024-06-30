@@ -6,7 +6,6 @@ resources:
   - manifests/frontend-deployment.yaml
   - manifests/frontend-service.yaml
   - manifests/ingress.yaml
-  - manifests/persistentvolume.yaml
   - manifests/persistentvolumeclaim.yaml
   - manifests/postgresdeployment.yaml
   - manifests/postgres-service.yaml
