@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  namespace: todo-project
+  name: db-backup
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: pgdumper
+            image: usermine12/dvopskube-307
+            env:
+            - name: POSTGRES_HOST
+              value: postgres-svc
+            - name: POSTGRES_DATABASE
+              value: postgresdb
+            - name: POSTGRES_USER
+              value: admin
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: POSTGRES_PASSWORD
+            - name: GCLOUD_PROJECT_ID
+              value: dwk-gke-427911
+            - name: GCS_BACKUP_BUCKET
+              value: gs://todo-pg-dump
+            - name: SCHEDULE
+              value: '0 0 0 * * *'
+            - name: GCLOUD_KEYFILE_BASE64
+              valueFrom:
+                secretKeyRef:
+                  name: gcs-secrets
+                  key: keyfile
+          restartPolicy: OnFailure

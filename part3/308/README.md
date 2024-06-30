@@ -1,0 +1,1 @@
+These are deployed automatically except for postgres-secrets which you must deploy manually
