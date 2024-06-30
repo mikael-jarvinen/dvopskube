@@ -49,7 +49,7 @@ jobs:
         run: docker build --tag "gcr.io/$PROJECT_ID/$FRONTEND_IMAGE:$BRANCH-$GITHUB_SHA" part3/303/fe/
 
       - name: Build cron job
-        run: docker build -f Dockerfile_job --tag "gcr.io/$PROJECT_ID/$CRONJOB_IMAGE:$BRANCH-$GITHUB_SHA" part3/303/be/
+        run: docker build -f part3/303/be/Dockerfile_job --tag "gcr.io/$PROJECT_ID/$CRONJOB_IMAGE:$BRANCH-$GITHUB_SHA" part3/303/be/
 
       - name: Publish backend
         run: docker push "gcr.io/$PROJECT_ID/$BACKEND_IMAGE:$BRANCH-$GITHUB_SHA"
