@@ -1,0 +1,57 @@
+name: Delete environment
+## WHen a branch is deleted will delete a GKE environment
+on:
+  delete:
+
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: dwk-cluster
+  GKE_ZONE: europe-north1-b
+  BACKEND_IMAGE: dwk-environments-303-backend
+  FRONTEND_IMAGE: dwk-environments-303-frontend
+  CRONJOB_IMAGE: dwk-environments-303-job
+  SERVICE: dwk-environments
+  BRANCH: ${{ github.ref_name }}
+
+jobs:
+  delete-environment:
+    name: Build, Publish and Deploy
+    runs-on: ubuntu-latest
+    environment: example32
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GKE_SA_KEY }}'
+
+      - name: 'Set up Cloud SDK'
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: 'Use gcloud CLI'
+        run: gcloud info
+
+      - run: gcloud --quiet auth configure-docker
+
+      - name: 'Get GKE credentials'
+        uses: 'google-github-actions/get-gke-credentials@v2'
+        with:
+          cluster_name: '${{ env.GKE_CLUSTER }}'
+          project_id: '${{ env.PROJECT_ID }}'
+          location: '${{ env.GKE_ZONE }}'
+      
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v2.1.0
+
+      - name: Remove environment
+        run: |-
+          cd part3/303/
+          export GKE_NAMESPACE=${GITHUB_REF#refs/heads/}
+
+          if [ "$GKE_NAMESPACE" != "main" ]; then
+            kubectl config set-context --current --namespace=$GKE_NAMESPACE
+          fi
+
+          kubectl delete -k .
