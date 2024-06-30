@@ -71,6 +71,7 @@ jobs:
           if [ "$GKE_NAMESPACE" != "main" ]; then
             kubectl create namespace $GKE_NAMESPACE
             kubectl config set-context --current --namespace=$GKE_NAMESPACE
+            kustomize edit set namespace $GKE_NAMESPACE
           fi
 
           kustomize edit set image BACKEND/IMAGE=gcr.io/$PROJECT_ID/$BACKEND_IMAGE:$BRANCH-$GITHUB_SHA
