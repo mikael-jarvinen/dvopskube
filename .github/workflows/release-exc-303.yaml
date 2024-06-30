@@ -1,4 +1,4 @@
-name: Release example32
+name: Release exercise 303
 
 on:
   push:
