@@ -8,9 +8,9 @@ resources:
   - manifests/ingress.yaml
   - manifests/persistentvolume.yaml
   - manifests/persistentvolumeclaim.yaml
-  - manifests/postgres-deployment.yaml
+  - manifests/postgresdeployment.yaml
   - manifests/postgres-service.yaml
-  - manifests/todo-cronjob.yaml
+  - manifests/todocronjob.yaml
 images:
   - name: BACKEND/IMAGE
     newName: usermine12/dvopskube-303-backend
