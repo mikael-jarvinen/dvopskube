@@ -65,9 +65,10 @@ jobs:
 
       - name: Deploy
         run: |-
-          kustomize edit part3/303/ set image BACKEND/IMAGE=gcr.io/$PROJECT_ID/$BACKEND_IMAGE:$BRANCH-$GITHUB_SHA
-          kustomize edit part3/303/ set image FRONTEND/IMAGE=gcr.io/$PROJECT_ID/$FRONTEND_IMAGE:$BRANCH-$GITHUB_SHA
-          kustomize edit part3/303/ set image BACKEND/IMAGE=gcr.io/$PROJECT_ID/$CRONJOB_IMAGE:$BRANCH-$GITHUB_SHA
-          kustomize build part3/303/ | kubectl apply -f -
+          cd part3/303/
+          kustomize edit set image BACKEND/IMAGE=gcr.io/$PROJECT_ID/$BACKEND_IMAGE:$BRANCH-$GITHUB_SHA
+          kustomize edit set image FRONTEND/IMAGE=gcr.io/$PROJECT_ID/$FRONTEND_IMAGE:$BRANCH-$GITHUB_SHA
+          kustomize edit set image BACKEND/IMAGE=gcr.io/$PROJECT_ID/$CRONJOB_IMAGE:$BRANCH-$GITHUB_SHA
+          kustomize build . | kubectl apply -f -
           kubectl rollout status deployment $SERVICE
           kubectl get services -o wide
