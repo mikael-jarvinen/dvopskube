@@ -1,25 +1,30 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - manifests/backend-rollout.yaml
-  - manifests/backend-service.yaml
-  - manifests/broadcaster-deployment.yaml
-  - manifests/frontend-rollout.yaml
-  - manifests/frontend-service.yaml
-  - manifests/ingress.yaml
-  - manifests/persistentvolumeclaim.yaml
-  - manifests/postgresdeployment.yaml
-  - manifests/postgres-service.yaml
-  - manifests/todocronjob.yaml
-  - manifests/pgdump-job.yaml
+- manifests/backend-rollout.yaml
+- manifests/backend-service.yaml
+- manifests/broadcaster-deployment.yaml
+- manifests/frontend-rollout.yaml
+- manifests/frontend-service.yaml
+- manifests/ingress.yaml
+- manifests/persistentvolumeclaim.yaml
+- manifests/postgresdeployment.yaml
+- manifests/postgres-service.yaml
+- manifests/todocronjob.yaml
+- manifests/pgdump-job.yaml
 images:
-  - name: BACKEND/IMAGE
-    newName: usermine12/dvopskube-408-backend
-  - name: FRONTEND/IMAGE
-    newName: usermine12/dvopskube-408-frontend
-  - name: CRONJOB/IMAGE
-    newName: usermine12/dvopskube-408-job
-  - name: BROADCASTER/IMAGE
-    newName: usermine12/dvopskube-408-broadcaster
-  - name: DUMPER/IMAGE
-    newName: usermine12/dvopskube-408-dumper
+- name: BACKEND/IMAGE
+  newName: usermine12/dvopskube-408-backend
+  newTag: 6f33089d6524e19a454cb9496cc026a50ff85219
+- name: BROADCASTER/IMAGE
+  newName: usermine12/dvopskube-408-broadcaster
+  newTag: 6f33089d6524e19a454cb9496cc026a50ff85219
+- name: CRONJOB/IMAGE
+  newName: usermine12/dvopskube-408-job
+  newTag: 6f33089d6524e19a454cb9496cc026a50ff85219
+- name: DUMPER/IMAGE
+  newName: usermine12/dvopskube-408-dumper
+  newTag: 6f33089d6524e19a454cb9496cc026a50ff85219
+- name: FRONTEND/IMAGE
+  newName: usermine12/dvopskube-408-frontend
+  newTag: 6f33089d6524e19a454cb9496cc026a50ff85219
