@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: todo-broadcaster
-  namespace: todo-project
 spec:
   replicas: 6
   selector:
@@ -21,8 +20,6 @@ spec:
             value: "3000"
           - name: NATS_URL
             value: "nats://my-nats.todo-project:4222"
-          #- name: BROADCAST_URL
-          #  value: "http://todo-broadcast-service.todo-project:3000"
           readinessProbe:
             httpGet:
               path: /healthcheck
