@@ -1,10 +1,11 @@
 resources:
-  - ../../base
+  - ../base
 
-namePrefix: staging-
+namePrefix: production-
 
 patches:
   - path: broadcaster-deployment.yaml
+  - path: pgdump-job.yaml
 images:
   - name: BACKEND/IMAGE
     newName: usermine12/dvopskube-408-backend
@@ -14,3 +15,5 @@ images:
     newName: usermine12/dvopskube-408-job
   - name: BROADCASTER/IMAGE
     newName: usermine12/dvopskube-408-broadcaster
+  - name: DUMPER/IMAGE
+    newName: usermine12/dvopskube-408-dumper
