@@ -36,6 +36,7 @@ jobs:
 
       - name: Use right images
         run: |-
+          cd part4/407
           kustomize edit set image PINGPONG/IMAGE=usermine12/dvopskube-407-pingpong:$GITHUB_SHA
           kustomize edit set image LOGOUTPUT/IMAGE=usermine12/dvopskube-407-logoutput:$GITHUB_SHA
 
