@@ -1,0 +1,68 @@
+name: Build and publish application 408
+
+on:
+  push:
+
+jobs:
+  build-publish:
+    name: Build, Push, Release
+    runs-on: ubuntu-latest
+    environment: example32
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and publish FE
+        run: |-
+          cd part4/408
+          docker build --tag "usermine12/dvopskube-408-frontend:$GITHUB_SHA" fe/
+          docker push "usermine12/dvopskube-408-frontend:$GITHUB_SHA"
+
+      - name: Build and publish BE
+        run: |-
+          cd part4/408
+          docker build --tag "usermine12/dvopskube-408-backend:$GITHUB_SHA" be/
+          docker push "usermine12/dvopskube-408-backend:$GITHUB_SHA"
+
+      - name: Build and publish DUMPER
+        run: |-
+          cd part4/408
+          docker build --tag "usermine12/dvopskube-408-dumper:$GITHUB_SHA" pg_dumper/
+          docker push "usermine12/dvopskube-408-dumper:$GITHUB_SHA"
+
+      - name: Build and publish CRONJOB
+        run: |-
+          cd part4/408
+          docker build -f be/Dockerfile_job --tag "usermine12/dvopskube-408-job:$GITHUB_SHA" be/
+          docker push "usermine12/dvopskube-408-job:$GITHUB_SHA"
+
+      - name: Build and publish BROADCASTER
+        run: |-
+          cd part4/408
+          docker build --tag "usermine12/dvopskube-408-broadcaster:$GITHUB_SHA" broadcaster/
+          docker push "usermine12/dvopskube-408-broadcaster:$GITHUB_SHA"
+
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v2
+
+      - name: Use right images
+        run: |-
+          cd part4/408
+          kustomize edit set image FRONTEND/IMAGE=usermine12/dvopskube-408-frontend:$GITHUB_SHA
+          kustomize edit set image BACKEND/IMAGE=usermine12/dvopskube-408-backend:$GITHUB_SHA
+          kustomize edit set image CRONJOB/IMAGE=usermine12/dvopskube-408-job:$GITHUB_SHA
+          kustomize edit set image DUMPER/IMAGE=usermine12/dvopskube-408-dumper:$GITHUB_SHA
+          kustomize edit set image BROADCASTER/IMAGE=usermine12/dvopskube-408-broadcaster:$GITHUB_SHA
+
+      - name: commit kustomization.yaml to GitHub
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'part4/408/kustomization.yaml'
+          message: New version released ${{ github.sha }}
