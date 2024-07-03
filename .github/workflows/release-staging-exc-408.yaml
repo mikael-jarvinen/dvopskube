@@ -1,4 +1,4 @@
-name: Build and publish application 408
+name: Build and publish staging application 408
 
 on:
   push:

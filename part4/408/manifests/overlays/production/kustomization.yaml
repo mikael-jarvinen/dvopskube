@@ -1,5 +1,8 @@
 resources:
-  - ./../../base
+  - ../../base
+
+namePrefix: production-
+
 patches:
   - path: broadcaster-deployment.yaml
   - path: pgdump-job.yaml
