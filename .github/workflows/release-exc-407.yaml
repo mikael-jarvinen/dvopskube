@@ -41,6 +41,7 @@ jobs:
           kustomize edit set image LOGOUTPUT/IMAGE=usermine12/dvopskube-407-logoutput:$GITHUB_SHA
 
       - name: commit kustomization.yaml to GitHub
+        working-directory: part4/407
         uses: EndBug/add-and-commit@v9
         with:
           add: 'kustomization.yaml'
