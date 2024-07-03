@@ -1,14 +1,14 @@
 resources:
-- manifests/backend-rollout.yaml
-- manifests/backend-service.yaml
-- manifests/broadcaster-deployment.yaml
-- manifests/frontend-rollout.yaml
-- manifests/frontend-service.yaml
-- manifests/ingress.yaml
-- manifests/persistentvolumeclaim.yaml
-- manifests/postgresdeployment.yaml
-- manifests/postgres-service.yaml
-- manifests/todocronjob.yaml
+- backend-rollout.yaml
+- backend-service.yaml
+- broadcaster-deployment.yaml
+- frontend-rollout.yaml
+- frontend-service.yaml
+- ingress.yaml
+- persistentvolumeclaim.yaml
+- postgresdeployment.yaml
+- postgres-service.yaml
+- todocronjob.yaml
 images:
 - name: BACKEND/IMAGE
   newName: usermine12/dvopskube-408-backend
