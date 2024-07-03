@@ -12,7 +12,7 @@ resources:
 images:
 - name: LOGOUTPUT/IMAGE
   newName: usermine12/dvopskube-407-logoutput
-  newTag: 45014076c056afb0589271918ec2413261374716
+  newTag: 379a3e20813a270a16b4ea7cf532e4a7a5940eaa
 - name: PINGPONG/IMAGE
   newName: usermine12/dvopskube-407-pingpong
-  newTag: 45014076c056afb0589271918ec2413261374716
+  newTag: 379a3e20813a270a16b4ea7cf532e4a7a5940eaa
