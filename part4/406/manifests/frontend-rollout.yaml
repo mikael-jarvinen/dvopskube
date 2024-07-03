@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  namespace: todo-project
+  name: todo-frontend-rollout
+spec:
+  replicas: 2
+  strategy:
+    canary:
+      steps:
+      - setWeight: 50
+      - pause:
+          duration: 30s
+      - setWeight: 100
+  selector:
+    matchLabels:
+      app: todo-frontend
+  template:
+    metadata:
+      labels:
+        app: todo-frontend
+    spec:
+      volumes:
+        - name: image-volume
+          persistentVolumeClaim:
+            claimName: todo-volume-claim
+      containers:
+        - name: todo-frontend
+          image: FRONTEND/IMAGE
+          env:
+          - name: PORT
+            value: "3000"
+          - name: API_URL
+            value: "http://todo-backend-svc:2345"
+          resources:
+            limits:
+              cpu: "200m"
+              memory: "612Mi"
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 3000
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 3000

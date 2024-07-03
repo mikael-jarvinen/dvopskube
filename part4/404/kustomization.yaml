@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - manifests/backend-rollout.yaml
+  - manifests/backend-service.yaml
+  - manifests/frontend-rollout.yaml
+  - manifests/frontend-service.yaml
+  - manifests/ingress.yaml
+  - manifests/persistentvolumeclaim.yaml
+  - manifests/postgresdeployment.yaml
+  - manifests/postgres-service.yaml
+  - manifests/todocronjob.yaml
+images:
+  - name: BACKEND/IMAGE
+    newName: usermine12/dvopskube-404-backend
+  - name: FRONTEND/IMAGE
+    newName: usermine12/dvopskube-404-frontend
+  - name: CRONJOB/IMAGE
+    newName: usermine12/dvopskube-404-job

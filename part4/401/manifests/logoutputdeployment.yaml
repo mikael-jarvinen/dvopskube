@@ -4,7 +4,7 @@ metadata:
   namespace: course-exercises
   name: logoutput-dep
 spec:
-  replicas: 5
+  replicas: 1
   selector:
     matchLabels:
       app: logoutput

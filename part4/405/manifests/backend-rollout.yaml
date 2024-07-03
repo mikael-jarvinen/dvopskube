@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  namespace: todo-project
+  name: todo-backend-rollout
+spec:
+  replicas: 2
+  strategy:
+    canary:
+      steps:
+      - setWeight: 50
+      - pause:
+          duration: 30s
+      - setWeight: 100
+  selector:
+    matchLabels:
+      app: todo-backend
+  template:
+    metadata:
+      labels:
+        app: todo-backend
+    spec:
+      containers:
+        - name: todo-backend
+          image: BACKEND/IMAGE
+          env:
+          - name: PORT
+            value: "3001"
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secrets
+                key: DATABASE_URL
+          resources:
+            limits:
+              cpu: "200m"
+              memory: "612Mi"
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 3001
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 3001

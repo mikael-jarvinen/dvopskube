@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  namespace: todo-project
+  name: frontend-cpu-analysis
+spec:
+  metrics:
+  - name: frontend-cpu-analysis
+    initialDelay: 2m
+    successCondition: result < 0.5
+    provider:
+      prometheus:
+        address: http://kube-prometheus-stack-1602-prometheus.prometheus.svc.cluster.local:9090 # DNS name for my Prometheus, find yours with kubectl describe svc ...
+        query: |
+          sum(rate(container_cpu_usage_seconds_total{container="todo-frontend"}[5m]))

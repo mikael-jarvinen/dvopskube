@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: course-exercises
+  name: pingpong-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pingpong
+  template:
+    metadata:
+      labels:
+        app: pingpong
+    spec:
+      containers:
+        - name: pingpong
+          image: usermine12/dvopskube-401-pingpong
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: DATABASE_URL
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 3000
+          resources:
+            limits:
+              cpu: "100m"
+              memory: "256Mi"
+
