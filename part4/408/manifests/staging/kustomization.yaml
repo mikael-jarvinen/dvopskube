@@ -1,8 +1,6 @@
 resources:
   - ../base
 
-namePrefix: staging-
-
 patches:
   - path: broadcaster-deployment.yaml
 images:
