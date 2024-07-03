@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: pingpong
-          image: usermine12/dvopskube-401-pingpong
+          image: PINGPONG/IMAGE
           env:
             - name: DATABASE_URL
               valueFrom:
