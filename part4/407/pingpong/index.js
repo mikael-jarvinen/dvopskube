@@ -18,9 +18,6 @@ const server = http.createServer(async (req, res) => {
             if (!connected) {
                 await prisma.$connect();
                 connected = true;
-            }
-
-            if (connected && !pushed) {
                 // When the connection is successful push the DB schema
                 subProcess.execSync('npx prisma db push');
                 pushed = true;
