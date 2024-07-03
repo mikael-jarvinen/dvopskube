@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - manifests/configmap.yaml
+  - manifests/ingress.yaml
+  - manifests/logoutput-service.yaml
+  - manifests/logoutputdeployment.yaml
+  - manifests/ping-pong-service.yaml
+  - manifests/pingpong-deployment.yaml
+  - manifests/postgres-service.yaml
+  - manifests/postgresdeployment.yaml
+images:
+  - name: PINGPONG/IMAGE
+    newName: usermine12/dvopskube-407-pingpong
+  - name: LOGOUTPUT/IMAGE
+    newName: usermine12/dvopskube-407-logoutput
