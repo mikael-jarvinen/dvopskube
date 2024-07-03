@@ -41,7 +41,7 @@ const server = http.createServer(async (req, res) => {
         let output = `file content: ${fileContent}.\n`;
         output += `env variable: MESSAGE=${process.env.MESSAGE}.\n`;
         output += `${(new Date()).toISOString()}: ${randomString}.\n`;
-        output += `Ping / Pongs: ${counter}.\nTest edit`;
+        output += `Ping / Pongs: ${counter}.\nTest edit new`;
 
         res.end(output);
     } catch (e) {
