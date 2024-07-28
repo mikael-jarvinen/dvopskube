@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-broadcaster
+  namespace: todo-project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-broadcaster
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: todo-broadcaster
+    spec:
+      containers:
+        - name: todo-broadcaster
+          image: BROADCASTER/IMAGE
+          env:
+          - name: PORT
+            value: "3000"
+          - name: NATS_URL
+            value: "nats://my-nats.todo-project:4222"
+          #- name: BROADCAST_URL
+          #  value: "http://todo-broadcast-service.todo-project:3000"
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 3000
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 3000
